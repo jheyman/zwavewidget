@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ImageView
+android:id="@+id/emailicon"
+android:layout_height="match_parent"
+android:layout_width="wrap_content"
+android:layout_toRightOf="@id/textView"
+android:scaleType="fitStart"
+android:src="@drawable/preview"/>
+

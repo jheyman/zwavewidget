@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Layout1"
+    android:background="#000000"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/row0"
+        android:background="#000000"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view00Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view00"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view01Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view01"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view02Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view02"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view03Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view03"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/row1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view10Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view10"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view11Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view11"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view12Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view12"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view13Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view13"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/row2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view20Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view20"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view21Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view21"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view22Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view22"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view23Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view23"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/row3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view30Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view30"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view31Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view31"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view32Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view32"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/view33Text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Not initialized"
+                android:layout_weight="1"
+                android:padding="@dimen/text_padding"
+                android:textSize="@dimen/text_size"
+                android:textColor="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/view33"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="10"
+                android:src="@drawable/bulb_off"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
