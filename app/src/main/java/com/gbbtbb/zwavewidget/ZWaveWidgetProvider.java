@@ -1,20 +1,28 @@
 package com.gbbtbb.zwavewidget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 public class ZWaveWidgetProvider extends AppWidgetProvider {
 
-    private static String imageName = "";
-    private static int imageHeight ;
-    private static int imageWidth ;
-    private static int imageOrientation ;
+    public static final String CLICK_ACTION ="com.gbbtbb.zwavewidget.CLICK_ACTION";
+    public static final String INITIALIZE_ACTION ="com.gbbtbb.zwavewidget.INITIALIZE_ACTION";
+    public static final String REFRESH_ACTION ="com.gbbtbb.zwavewidget.REFRESH_ACTION";
+    public static final String TOGGLE_ACTION ="com.gbbtbb.zwavewidget.TOGGLE_ACTION";
+
+    public static final String STORE_REFRESH_TIME_ACTION ="com.gbbtbb.zwavewidget.STORE_REFRESH_TIME_ACTION";
+
+    public static final String STORE_REFRESH_TIME_EXTRA ="com.gbbtbb.zwavewidget.STORE_REFRESH_TIME_EXTRA";
+    public static final String LAST_REFRESH_EXTRA ="com.gbbtbb.zwavewidget.LAST_REFRESH_EXTRA";
+    public static final String DEVICE_NAME_EXTRA ="com.gbbtbb.zwavewidget.DEVICE_NAME_EXTRA";
 
     public Handler handler = new Handler();
     private Context ctx;
@@ -25,14 +33,18 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
     {
         @Override
         public void run() {
+
+            // Call service to refresh widget data/UI
             Intent i = new Intent(ctx.getApplicationContext(), ZWaveWidgetService.class);
-            //intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            // Update the widgets via the service
-            i.putExtra("lastRefresh", lastRefreshUnixTime);
-            i.setAction("refresh");
+            i.putExtra(LAST_REFRESH_EXTRA, lastRefreshUnixTime);
+            i.setAction(REFRESH_ACTION);
             ctx.startService(i);
 
-            lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
+            // REMOVED: use server received timestamps instead
+            // Keep track of latest refresh time, and schedule next refresh
+            //lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
+
+
             handler.postDelayed(this, REFRESH_DELAY);
         }
     };
@@ -49,14 +61,25 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
             int widgetId = appWidgetIds[i];
 
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.zwavewidget);
-/*
-            final Intent onClickIntent = new Intent(context, ZWaveWidgetProvider.class);
-            onClickIntent.setAction(ZWaveWidgetProvider.SENDEMAIL_ACTION);
-            //onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
-            final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setOnClickPendingIntent(R.id.view00, onClickPendingIntent);
-*/
+
+            // Parse the list of all declared devices, retrieve the associated imageView for each device, and register a click event on it
+            String[] deviceList = context.getResources().getStringArray(R.array.deviceList);
+            for (String d : deviceList) {
+                int arrayId = context.getResources().getIdentifier(d, "array", context.getPackageName());
+                String[] temp = context.getResources().getStringArray(arrayId);
+
+                // Get resource identifier of ImageView for this device
+                int imageViewId = context.getResources().getIdentifier(temp[6], "id", context.getPackageName());
+
+                // Register a click intent on it
+                final Intent onClickIntent = new Intent(context, ZWaveWidgetProvider.class);
+                onClickIntent.setAction(ZWaveWidgetProvider.CLICK_ACTION);
+                onClickIntent.putExtra(DEVICE_NAME_EXTRA, d);
+                onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
+                final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                remoteViews.setOnClickPendingIntent(imageViewId, onClickPendingIntent);
+            }
+
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
 
@@ -68,9 +91,9 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
         //intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         // Update the widgets via the service
         intent.putExtra("lastRefresh", lastRefreshUnixTime);
-        intent.setAction("initialUpdate");
+        intent.setAction(INITIALIZE_ACTION);
         context.startService(intent);
-        lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
+        //lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
         Log.i("ZWaveWidgetProvider", "onUpdate: background service started");
     }
 
@@ -78,8 +101,23 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context ctx, Intent intent) {
         final String action = intent.getAction();
         int[] appWidgetIds;
-        Log.i("ZWaveWidgetProvider", "onReceive " + action);
+        //Log.i("ZWaveWidgetProvider", "onReceive " + action);
 
+        if (CLICK_ACTION.equals(action)) {
+
+            String deviceName = intent.getStringExtra(DEVICE_NAME_EXTRA);
+            Log.i("ZWaveWidgetProvider", "onReceive CLICK devName=" + deviceName);
+
+            // Build the intent to call the service
+            Intent i = new Intent(ctx.getApplicationContext(), ZWaveWidgetService.class);
+            i.putExtra(DEVICE_NAME_EXTRA, deviceName);
+            i.setAction(TOGGLE_ACTION);
+            ctx.startService(i);
+        }
+        else if (STORE_REFRESH_TIME_ACTION.equals(action)) {
+            lastRefreshUnixTime = intent.getLongExtra(STORE_REFRESH_TIME_EXTRA, 0);
+            Log.i("ZWaveWidgetProvider", "Updating latestRefreshUnixTime to " + Long.toString(lastRefreshUnixTime));
+        }
         super.onReceive(ctx, intent);
     }
 }

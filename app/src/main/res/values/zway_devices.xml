@@ -20,144 +20,192 @@
     </string-array>
 
     <string-array name="Garage">
-        <item name="devidId">26</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">27</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">1</item>
+        <item name="instanceId_notified">1</item>
+        <item name="commandclass_notified">32</item>
         <item name="imageViewId">view00</item>
         <item name="textViewId">view00Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="SdbTBB">
-        <item name="devidId">14</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">14</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">14</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view01</item>
         <item name="textViewId">view01Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="Dressing">
-        <item name="devidId">16</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">16</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">16</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view02</item>
         <item name="textViewId">view02Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="Chambre">
-        <item name="devidId">18</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">18</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">18</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view10</item>
         <item name="textViewId">view10Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="SdbGBB">
-        <item name="devidId">19</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">19</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">19</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view11</item>
         <item name="textViewId">view11Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="Escalier">
-        <item name="devidId">20</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">20</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">20</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view12</item>
         <item name="textViewId">view12Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="Entree">
-        <item name="devidId">21</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">21</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">21</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view20</item>
         <item name="textViewId">view20Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="CouloirHaut">
-        <item name="devidId">22</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">22</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">22</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view21</item>
         <item name="textViewId">view21Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="Bureau">
-        <item name="devidId">23</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">23</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">23</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view22</item>
         <item name="textViewId">view22Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="Salon">
-        <item name="devidId">8</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">8</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">8</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view03</item>
         <item name="textViewId">view03Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
     <string-array name="TV">
-        <item name="devidId">10</item>
-        <item name="intanceId">0</item>
-        <item name="command">37</item>
+        <item name="devId_setget">10</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">37</item>
+        <item name="devId_notified">10</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">37</item>
         <item name="imageViewId">view13</item>
         <item name="textViewId">view13Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
     <string-array name="Fibaro1">
-        <item name="devidId">5</item>
-        <item name="intanceId">0</item>
-        <item name="command">37</item>
+        <item name="devId_setget">5</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">37</item>
+        <item name="devId_notified">5</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">37</item>
         <item name="imageViewId">view23</item>
         <item name="textViewId">view23Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
     <string-array name="Fibaro2">
-        <item name="devidId">11</item>
-        <item name="intanceId">0</item>
-        <item name="command">37</item>
+        <item name="devId_setget">11</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">37</item>
+        <item name="devId_notified">11</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">37</item>
         <item name="imageViewId">view30</item>
         <item name="textViewId">view30Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
     <string-array name="Fibaro3">
-        <item name="devidId">17</item>
-        <item name="intanceId">0</item>
-        <item name="command">37</item>
+        <item name="devId_setget">17</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">37</item>
+        <item name="devId_notified">17</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">37</item>
         <item name="imageViewId">view31</item>
         <item name="textViewId">view31Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
     <string-array name="Poppplug">
-        <item name="devidId">9</item>
-        <item name="intanceId">0</item>
-        <item name="command">37</item>
+        <item name="devId_setget">9</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">37</item>
+        <item name="devId_notified">0</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">37</item>
         <item name="imageViewId">view32</item>
         <item name="textViewId">view32Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
     <string-array name="Cuisine">
-        <item name="devidId">8</item>
-        <item name="intanceId">0</item>
-        <item name="command">38</item>
+        <item name="devId_setget">8</item>
+        <item name="instanceId_setget">0</item>
+        <item name="commandclass_setget">38</item>
+        <item name="devId_notified">8</item>
+        <item name="instanceId_notified">0</item>
+        <item name="commandclass_notified">38</item>
         <item name="imageViewId">view33</item>
         <item name="textViewId">view33Text</item>
         <item name="icontype">bulb</item>
