@@ -17,7 +17,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetProvider.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetProvider.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetService.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/zway_devices.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/zway_devices.xml" />
     </list>
@@ -40,31 +39,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ZWaveWidgetProvider.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ZWaveWidgetProvider.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23355705">
-              <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
+            <state vertical-scroll-proportion="8.0">
+              <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
               <folding>
-                <element signature="e#2011#2012#0" expanded="true" />
+                <element signature="e#1345#1919#0" expanded="true" />
+                <element signature="e#1918#1919#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ZWaveWidgetService.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ZWaveWidgetService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.8486563">
+              <caret line="235" column="9" selection-start-line="235" selection-start-column="9" selection-end-line="235" selection-end-column="9" />
               <folding>
-                <element signature="e#4190#4246#0" expanded="true" />
-                <element signature="e#7851#7907#0" expanded="true" />
-                <element signature="e#9576#9632#0" expanded="true" />
-                <element signature="e#10118#10174#0" expanded="true" />
-                <element signature="e#10325#10381#0" expanded="true" />
-                <element signature="e#12286#12342#0" expanded="true" />
-                <element signature="e#12495#12551#0" expanded="true" />
+                <element signature="e#4459#4515#0" expanded="true" />
+                <element signature="e#8871#8927#0" expanded="true" />
+                <element signature="e#10262#10318#0" expanded="true" />
+                <element signature="e#10820#10876#0" expanded="true" />
+                <element signature="e#11096#11152#0" expanded="true" />
+                <element signature="e#13500#13556#0" expanded="true" />
+                <element signature="e#13709#13765#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -73,8 +73,8 @@
       <file leaf-file-name="zway_devices.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/zway_devices.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.9122808">
-              <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="198" selection-end-column="41" />
+            <state vertical-scroll-proportion="-12.142858">
+              <caret line="149" column="37" selection-start-line="149" selection-start-column="37" selection-end-line="149" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -1641,9 +1641,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetProvider.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/zway_devices.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetProvider.java" />
       </list>
     </option>
   </component>
@@ -1948,7 +1948,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="24" width="1871" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" x="149" y="124" width="1671" height="856" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1957,11 +1957,12 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1498406" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943678" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21997875" sideWeight="0.4980864" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3092455" sideWeight="0.5019136" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1978,7 +1979,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943678" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2043,7 +2043,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="68" column="2" selection-start-line="68" selection-start-column="2" selection-end-line="68" selection-end-column="2" />
           <folding>
-            <element signature="e#2011#2012#0" expanded="true" />
+            <element signature="e#1345#1919#0" expanded="true" />
+            <element signature="e#1918#1919#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2053,13 +2054,13 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="79" column="194" selection-start-line="79" selection-start-column="65" selection-end-line="79" selection-end-column="194" />
           <folding>
-            <element signature="e#4190#4246#0" expanded="true" />
-            <element signature="e#7851#7907#0" expanded="true" />
-            <element signature="e#9576#9632#0" expanded="true" />
-            <element signature="e#10118#10174#0" expanded="true" />
-            <element signature="e#10325#10381#0" expanded="true" />
-            <element signature="e#12286#12342#0" expanded="true" />
-            <element signature="e#12495#12551#0" expanded="true" />
+            <element signature="e#4459#4515#0" expanded="true" />
+            <element signature="e#8871#8927#0" expanded="true" />
+            <element signature="e#10262#10318#0" expanded="true" />
+            <element signature="e#10820#10876#0" expanded="true" />
+            <element signature="e#11096#11152#0" expanded="true" />
+            <element signature="e#13500#13556#0" expanded="true" />
+            <element signature="e#13709#13765#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2080,36 +2081,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="8.0">
+          <caret line="41" column="27" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+          <folding>
+            <element signature="e#1345#1919#0" expanded="true" />
+            <element signature="e#1918#1919#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/zway_devices.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.9122808">
-          <caret line="190" column="0" selection-start-line="190" selection-start-column="0" selection-end-line="198" selection-end-column="41" />
+        <state vertical-scroll-proportion="-12.142858">
+          <caret line="149" column="37" selection-start-line="149" selection-start-column="37" selection-end-line="149" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="29" selection-start-line="42" selection-start-column="29" selection-end-line="42" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.8486563">
+          <caret line="235" column="9" selection-start-line="235" selection-start-column="9" selection-end-line="235" selection-end-column="9" />
           <folding>
-            <element signature="e#4190#4246#0" expanded="true" />
-            <element signature="e#7851#7907#0" expanded="true" />
-            <element signature="e#9576#9632#0" expanded="true" />
-            <element signature="e#10118#10174#0" expanded="true" />
-            <element signature="e#10325#10381#0" expanded="true" />
-            <element signature="e#12286#12342#0" expanded="true" />
-            <element signature="e#12495#12551#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/gbbtbb/zwavewidget/ZWaveWidgetProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23355705">
-          <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
-          <folding>
-            <element signature="e#2011#2012#0" expanded="true" />
+            <element signature="e#4459#4515#0" expanded="true" />
+            <element signature="e#8871#8927#0" expanded="true" />
+            <element signature="e#10262#10318#0" expanded="true" />
+            <element signature="e#10820#10876#0" expanded="true" />
+            <element signature="e#11096#11152#0" expanded="true" />
+            <element signature="e#13500#13556#0" expanded="true" />
+            <element signature="e#13709#13765#0" expanded="true" />
           </folding>
         </state>
       </provider>

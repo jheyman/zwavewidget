@@ -28,33 +28,41 @@ public class ZWaveWidgetService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         final String action = intent.getAction();
+
         // Create a RemoteViews to include any UI changes
         RemoteViews rv = new RemoteViews(this.getPackageName(), R.layout.zwavewidget);
 
-        /*
-        0 <item name="devId_setget"></item>
-        1 <item name="instanceId_setget"></item>
-        2 <item name="commandclass_setget"></item>
+        /* XML config data structure for each device
+        First the device, instance, and command class number used for Get and Set commands
 
-        3 <item name="devId_notified"></item>
-        4 <item name="instanceId_notified"></item>
-        5 <item name="commandclass_notified"></item>
+        0 = devId_setget
+        1 = instanceId_setget
+        2 = commandclass_setget
 
-        6 <item name="imageViewId"></item>
-        7 <item name="textViewId"></item>
+        Then the device, instance, and command class number used to detect changed when parsing incremental data updates.
+        In 99% of the cases, those are identical to 0,1,2
+        But for at least one plug device, for some reason when the device is manually switched, the change is detected/notified with a different dev/instance/class.
 
-        8 <item name="icontype"></item>
+        3 = devId_notified
+        4 = instanceId_notified
+        5 = commandclass_notified
+
+        Then the android Id for the associated ImageView and TextView
+        6 = imageViewId
+        7 = textViewId
+
+        Finally the base name for the image resource to be used to show the on/off state
+        8 = icontype
         */
 
-
         if (ZWaveWidgetProvider.INITIALIZE_ACTION.equals(action)) {
+
             Log.i("ZWaveWidgetService", "onHandleIntent INITIALIZE_ACTION");
 
-            // do a get on an arbitrary device to get server current time
+            // retrieve server-side timestamp, since this will be used in incremental updates
+            getServerTime();
+
             String[] deviceList = getResources().getStringArray(R.array.deviceList);
-            int tempArrayId = this.getResources().getIdentifier(deviceList[0], "array", this.getPackageName());
-            String[] val = getResources().getStringArray(tempArrayId);
-            initializeUpdateTime(rv, val[0], val[1], val[2], val[6], val[7], val[8], deviceList[0]);
 
             // now get data for every device
             for (String d : deviceList) {
@@ -62,9 +70,11 @@ public class ZWaveWidgetService extends IntentService {
                 String[] temp = getResources().getStringArray(arrayId);
                 forceRefreshDevice(rv, temp[0], temp[1], temp[2], temp[6], temp[7], temp[8], d);
             }
+
         } else if (ZWaveWidgetProvider.REFRESH_ACTION.equals(action)) {
-            long lastRefreshTime = intent.getExtras().getLong(ZWaveWidgetProvider.LAST_REFRESH_EXTRA);
-            Log.i("ZWaveWidgetService", "onHandleIntent REFRESH_ACTION date=" + Long.toString(lastRefreshTime));
+
+            long lastRefreshTime = intent.getExtras().getLong(ZWaveWidgetProvider.LATEST_REFRESH_EXTRA);
+            //Log.i("ZWaveWidgetService", "onHandleIntent REFRESH_ACTION date=" + Long.toString(lastRefreshTime));
 
             // Get all state changes since last update from the z-way server
             JSONObject jdata = getIncrementalUpdate(lastRefreshTime);
@@ -74,9 +84,11 @@ public class ZWaveWidgetService extends IntentService {
             for (String d : deviceList) {
                 int arrayId = this.getResources().getIdentifier(d, "array", this.getPackageName());
                 String[] temp = getResources().getStringArray(arrayId);
-                refreshDevice(jdata, rv, temp[3], temp[4], temp[5], temp[6], temp[7], temp[8], d);
+                refreshDevice(jdata, rv, temp[0], temp[1], temp[2],temp[3], temp[4], temp[5], temp[6], temp[7], temp[8], d);
             }
+
         }  else if (ZWaveWidgetProvider.TOGGLE_ACTION.equals(action)) {
+
             String deviceName = intent.getExtras().getString(ZWaveWidgetProvider.DEVICE_NAME_EXTRA);
             Log.i("ZWaveWidgetService", "onHandleIntent TOGGLE_ACTION, toggle " + deviceName);
             int arrayId = this.getResources().getIdentifier(deviceName, "array", this.getPackageName());
@@ -93,17 +105,17 @@ public class ZWaveWidgetService extends IntentService {
     private JSONObject getIncrementalUpdate(long timestamp){
         String query_Data = String.format(this.getResources().getString(R.string.zwaveserver_base) + "/ZWaveAPI/Data/%d", timestamp);
         String result = httpRequest(query_Data);
-        //Log.i("ZWaveWidgetService", "getIncrementalUpdate: " + result);
 
         String updateTime ="";
         JSONObject jdata = null;
+
         // Parse the received JSON data
         try {
             jdata = new JSONObject(result);
             updateTime = jdata.getString("updateTime");
 
         } catch(JSONException e){
-            Log.e("ZWaveWidgetService", "Error parsing data " + e.toString());
+            Log.e("ZWaveWidgetService", "getIncrementalUpdate: Error parsing data " + e.toString());
         }
 
         // Notify provider of data refresh time
@@ -113,53 +125,71 @@ public class ZWaveWidgetService extends IntentService {
         final PendingIntent donePendingIntent = PendingIntent.getBroadcast(this, 0, storeTimeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         try {
-            //Log.i("ZWaveWidgetService", "onHandleIntent: launching pending Intent for storing incremental state change refresh time");
             donePendingIntent.send();
         }
         catch (PendingIntent.CanceledException ce) {
-            Log.i("ZWaveWidgetService", "onHandleIntent: Exception: " + ce.toString());
+            Log.i("ZWaveWidgetService", "getIncrementalUpdate: Exception: " + ce.toString());
         }
 
         return jdata;
     }
 
-    private void refreshDevice(JSONObject jdata, RemoteViews rv, String devId_notified, String devInstanceId_notified, String devCommandClass_notified, String imgViewId, String txtViewId, String icontype_base, String name) {
+    private void refreshDevice(JSONObject jdata, RemoteViews rv, String devId_setget, String devInstanceId_setget, String devCommandClass_setget, String devId_notified, String devInstanceId_notified, String devCommandClass_notified, String imgViewId, String txtViewId, String icontype_base, String name) {
 
         // Build the string to look for in the JSON data
-        String key = String.format("devices.%s.instances.%s.commandClasses.%s.data.level", devId_notified, devInstanceId_notified, devCommandClass_notified);
+        String key_main = String.format("devices.%s.instances.%s.commandClasses.%s.data.level", devId_setget, devInstanceId_setget, devCommandClass_setget);
+        String key_alt = String.format("devices.%s.instances.%s.commandClasses.%s.data.level", devId_notified, devInstanceId_notified, devCommandClass_notified);
+
         String level_string="";
+        long updateTime;
+        long invalidateTime;
         int level=0;
+        JSONObject j_main = null;
+        JSONObject j_alt = null;
 
         // Parse the JSON data and check if this particular device changed state
+        // Some device state changes may be notified by two different ways, depending on how their change was triggered
+        // so look for both the main key string and the alternate key string in the JSON data
         try {
-            JSONObject j1 = jdata.getJSONObject(key);
-
-            if (j1 != null) {
-                level_string = j1.getString("value");
-
-                if ("true".equals(level_string))
-                    level = 1;
-                else if ("false".equals(level_string))
-                    level = 0;
-                else
-                    level = Integer.valueOf(j1.getString("value"));
-
-                Log.i("ZWaveWidgetService", "found change for "+ key +" : level=" + Integer.toString(level));
-
-                int imageViewId = this.getResources().getIdentifier(imgViewId, "id", this.getPackageName());
-
-                String iconOnIdString = String.format("%s_on", icontype_base);
-                String iconOffIdString = String.format("%s_off", icontype_base);
-                int iconOnId = this.getResources().getIdentifier(iconOnIdString, "drawable", this.getPackageName());
-                int iconOffId = this.getResources().getIdentifier(iconOffIdString, "drawable", this.getPackageName());
-
-                rv.setImageViewResource(imageViewId, level == 0 ? iconOffId : iconOnId);
-
-                int textViewId = this.getResources().getIdentifier(txtViewId, "id", this.getPackageName());
-                rv.setTextViewText(textViewId, name);
-            }
+            j_main = jdata.getJSONObject(key_main);
         } catch(JSONException e){
-            //Log.i("ZWaveWidgetService", "No change detected for " + key );
+        }
+
+        try {
+            j_alt = jdata.getJSONObject(key_alt);
+        } catch(JSONException e){
+        }
+
+        JSONObject j = (j_main !=null) ? j_main: (j_alt != null) ? j_alt: null;
+        if (j != null) {
+            try {
+                level_string = j.getString("value");
+                updateTime = Long.valueOf(j.getString("updateTime"));
+                invalidateTime = Long.valueOf(j.getString("invalidateTime"));
+
+                // This checks is important, to filter out stale data notification
+                // i.e. notification of a device state gathered *just* before it was manually changed from here
+                // If not filtered, the next refresh will have the good data, but the UI will flash to the wrong state, not nice.
+                if (updateTime > invalidateTime) {
+
+                    if ("true".equals(level_string))
+                        level = 1;
+                    else if ("false".equals(level_string))
+                        level = 0;
+                    else
+                        level = Integer.valueOf(j.getString("value"));
+
+                    Log.i("ZWaveWidgetService", "found change for " + key_main + " or "+ key_alt +" , level=" + Integer.toString(level));
+
+                    // Refresh icon
+                    updateImageView(rv, imgViewId, icontype_base, level);
+                }
+                else {
+                    Log.i("ZWaveWidgetService", "STALE update for " + key_main + ", discarding ");
+                }
+            } catch(JSONException e){
+                Log.i("ZWaveWidgetService", "No change detected for " + key_main + "or "+ key_alt);
+            }
         }
     }
 
@@ -173,51 +203,47 @@ public class ZWaveWidgetService extends IntentService {
         int level=0;
 
         // Parse the received JSON data
-        try {
-            JSONObject jdata = new JSONObject(result);
-            level_string = jdata.getString("value");
+        if (!"".equals(result)) {
+            try {
+                JSONObject jdata = new JSONObject(result);
+                level_string = jdata.getString("value");
 
-            if ("true".equals(level_string))
-                level = 1;
-            else if ("false".equals(level_string))
-                level = 0;
+                if ("true".equals(level_string))
+                    level = 1;
+                else if ("false".equals(level_string))
+                    level = 0;
+                else
+                    level = Integer.valueOf(jdata.getString("value"));
+
+                Log.i("ZWaveWidgetService", "updateSwitch (" + name + "): level=" + Integer.toString(level));
+
+            } catch (JSONException e) {
+                Log.e("ZWaveWidgetService", "toggleDevice: Error parsing data " + e.toString());
+            }
+
+            // toggle current state
+            if (level == 0)
+                level = 255; // 255 works even if max value is actually 1 or 99 or whatever.
             else
-                level = Integer.valueOf(jdata.getString("value"));
+                level = 0;
 
-            Log.i("ZWaveWidgetService", "updateSwitch ("+name+"): level=" + Integer.toString(level));
+            // Refresh icon
+            updateImageView(rv, imgViewId, icontype_base, level);
 
-        } catch(JSONException e){
-            Log.e("ZWaveWidgetService", "Error parsing data "+e.toString());
+            // Set new level on device
+            String query_SetLevel = String.format(this.getResources().getString(R.string.zwaveserver_base) + "/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].Set(%d)", devId, devInstanceId, devCommandClass, level);
+            httpRequest(query_SetLevel);
         }
-
-        // toggle state
-        if (level == 0)
-            level = 255; // 255 works even if max value is actually 1 or 99 or whatever.
-        else
-            level = 0;
-
-        // Refresh icon
-        int imageViewId = this.getResources().getIdentifier(imgViewId, "id", this.getPackageName());
-
-        String iconOnIdString = String.format("%s_on", icontype_base);
-        String iconOffIdString = String.format("%s_off", icontype_base);
-        int iconOnId = this.getResources().getIdentifier(iconOnIdString, "drawable", this.getPackageName());
-        int iconOffId = this.getResources().getIdentifier(iconOffIdString, "drawable", this.getPackageName());
-
-        rv.setImageViewResource(imageViewId, level == 0 ? iconOffId : iconOnId);
-
-        // Set new level on device
-        String query_SetLevel = String.format(this.getResources().getString(R.string.zwaveserver_base)+"/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].Set(%d)", devId, devInstanceId, devCommandClass, level);
-        httpRequest(query_SetLevel);
     }
 
     private void forceRefreshDevice(RemoteViews rv, String devId, String devInstanceId, String devCommandClass, String imgViewId, String txtViewId, String icontype_base, String name) {
 
         // Perform an explicit GET command on the device, to be sure that device status is fresh
         String query_Get = String.format(this.getResources().getString(R.string.zwaveserver_base)+"/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].Get()", devId, devInstanceId, devCommandClass);
-        String query_Data = String.format(this.getResources().getString(R.string.zwaveserver_base) + "/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].data.level", devId, devInstanceId, devCommandClass);
-
         httpRequest(query_Get);
+
+        // Then get the actual data
+        String query_Data = String.format(this.getResources().getString(R.string.zwaveserver_base) + "/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].data.level", devId, devInstanceId, devCommandClass);
         String result = httpRequest(query_Data);
 
         String level_string="";
@@ -238,9 +264,16 @@ public class ZWaveWidgetService extends IntentService {
             Log.i("ZWaveWidgetService", "updateSwitch ("+name+"): level=" + Integer.toString(level));
 
         } catch(JSONException e){
-            Log.e("ZWaveWidgetService", "Error parsing data "+e.toString());
+            Log.e("ZWaveWidgetService", "forceRefreshDevice: Error parsing data "+e.toString());
         }
 
+        updateImageView(rv, imgViewId, icontype_base, level);
+
+        int textViewId = this.getResources().getIdentifier(txtViewId, "id", this.getPackageName());
+        rv.setTextViewText(textViewId, name);
+    }
+
+    private void updateImageView(RemoteViews rv, String imgViewId, String icontype_base, int level) {
         int imageViewId = this.getResources().getIdentifier(imgViewId, "id", this.getPackageName());
 
         String iconOnIdString = String.format("%s_on", icontype_base);
@@ -249,15 +282,18 @@ public class ZWaveWidgetService extends IntentService {
         int iconOffId = this.getResources().getIdentifier(iconOffIdString, "drawable", this.getPackageName());
 
         rv.setImageViewResource(imageViewId, level == 0 ? iconOffId : iconOnId);
-
-        int textViewId = this.getResources().getIdentifier(txtViewId, "id", this.getPackageName());
-        rv.setTextViewText(textViewId, name);
     }
 
+    private void getServerTime() {
 
-    private void initializeUpdateTime(RemoteViews rv, String devId, String devInstanceId, String devCommandClass, String imgViewId, String txtViewId, String icontype_base, String name) {
+        // Horrible hack until I find a proper way to get the current timestamp at server side : retrieve data from one arbitrary device and read its update timestamp
+        String[] deviceList = getResources().getStringArray(R.array.deviceList);
+        int tempArrayId = this.getResources().getIdentifier(deviceList[0], "array", this.getPackageName());
+        String[] val = getResources().getStringArray(tempArrayId);
+        String devId = val[0];
+        String devInstanceId = val[1];
+        String devCommandClass = val[2];
 
-        // Perform an explicit GET command on the device, to be sure that device status is fresh
         String query_Get = String.format(this.getResources().getString(R.string.zwaveserver_base) + "/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].Get()", devId, devInstanceId, devCommandClass);
         String query_Data = String.format(this.getResources().getString(R.string.zwaveserver_base)+"/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].data.level", devId, devInstanceId, devCommandClass);
 
@@ -271,28 +307,27 @@ public class ZWaveWidgetService extends IntentService {
             JSONObject jdata = new JSONObject(result);
             updateTime = jdata.getString("updateTime");
         } catch(JSONException e){
-            Log.e("ZWaveWidgetService", "Error parsing data "+e.toString());
+            Log.e("ZWaveWidgetService", "getServerTime: Error parsing data "+e.toString());
         }
 
-        // Notify provider of latest data refresh time
+        // Notify provider of this timestamp
         final Intent storeTimeIntent = new Intent(this, ZWaveWidgetProvider.class);
         storeTimeIntent.setAction(ZWaveWidgetProvider.STORE_REFRESH_TIME_ACTION);
         storeTimeIntent.putExtra(ZWaveWidgetProvider.STORE_REFRESH_TIME_EXTRA, Long.valueOf(updateTime));
         final PendingIntent donePendingIntent = PendingIntent.getBroadcast(this, 0, storeTimeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         try {
-            //Log.i("ZWaveWidgetService", "onHandleIntent: launching pending Intent for storing incremental state change refresh time");
             donePendingIntent.send();
         }
         catch (PendingIntent.CanceledException ce) {
-            Log.i("ZWaveWidgetService", "onHandleIntent: Exception: " + ce.toString());
+            Log.i("ZWaveWidgetService", "getServerTime: Exception: " + ce.toString());
         }
     }
 
     private String httpRequest(String url) {
         String result = "";
 
-        //Log.i("ZWaveWidgetService", "Performing HTTP request " + url);
+      Log.i("ZWaveWidgetService", "Performing HTTP request " + url);
 
         try {
 
@@ -309,14 +344,13 @@ public class ZWaveWidgetService extends IntentService {
         }
 /*
         String data;
-        if (result.length() <= 128)
+        if (result.length() <= 2048)
             data = result;
         else
             data = "[long data....]";
-
-        Log.i("ZWaveWidgetService", "httpRequest completed, received " + result.length() + " bytes: " + data);
 */
-        Log.i("ZWaveWidgetService", "httpRequest completed, received " + result.length() + " bytes: " + result);
+        Log.i("ZWaveWidgetService", "httpRequest completed, received " + result.length() + " bytes: " + result.replaceAll(" ", "").replaceAll("\r", "").replaceAll("\n", ""));
+
         return result;
     }
 

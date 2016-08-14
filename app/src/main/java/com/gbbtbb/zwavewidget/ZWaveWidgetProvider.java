@@ -3,7 +3,6 @@ package com.gbbtbb.zwavewidget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,13 +20,13 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
     public static final String STORE_REFRESH_TIME_ACTION ="com.gbbtbb.zwavewidget.STORE_REFRESH_TIME_ACTION";
 
     public static final String STORE_REFRESH_TIME_EXTRA ="com.gbbtbb.zwavewidget.STORE_REFRESH_TIME_EXTRA";
-    public static final String LAST_REFRESH_EXTRA ="com.gbbtbb.zwavewidget.LAST_REFRESH_EXTRA";
+    public static final String LATEST_REFRESH_EXTRA ="com.gbbtbb.zwavewidget.LATEST_REFRESH_EXTRA";
     public static final String DEVICE_NAME_EXTRA ="com.gbbtbb.zwavewidget.DEVICE_NAME_EXTRA";
 
     public Handler handler = new Handler();
     private Context ctx;
-    private static int REFRESH_DELAY = 15000;
-    static long lastRefreshUnixTime = 0;
+    private static int REFRESH_DELAY = 2000;
+    static long latestRefreshUnixTime = 0;
 
     Runnable refreshWidget = new Runnable()
     {
@@ -35,15 +34,12 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
         public void run() {
 
             // Call service to refresh widget data/UI
+            // Pass along the latest data refresh time, so that the service can make a call to retrieve only
+            // incremental data changes
             Intent i = new Intent(ctx.getApplicationContext(), ZWaveWidgetService.class);
-            i.putExtra(LAST_REFRESH_EXTRA, lastRefreshUnixTime);
+            i.putExtra(LATEST_REFRESH_EXTRA, latestRefreshUnixTime);
             i.setAction(REFRESH_ACTION);
             ctx.startService(i);
-
-            // REMOVED: use server received timestamps instead
-            // Keep track of latest refresh time, and schedule next refresh
-            //lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
-
 
             handler.postDelayed(this, REFRESH_DELAY);
         }
@@ -53,6 +49,7 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         final int count = appWidgetIds.length;
 
+        // Start background handler that will call refresh regularly
         ctx= context;
         handler.postDelayed(refreshWidget, REFRESH_DELAY);
 
@@ -83,25 +80,18 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(widgetId, remoteViews);
         }
 
-        // Get all ids
-        ComponentName thisWidget = new ComponentName(context, ZWaveWidgetProvider.class);
-
-        // Build the intent to call the service
+        // Initial call to the service to get the first batch of data to refresh the UI
         Intent intent = new Intent(context.getApplicationContext(), ZWaveWidgetService.class);
-        //intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-        // Update the widgets via the service
-        intent.putExtra("lastRefresh", lastRefreshUnixTime);
+        intent.putExtra(LATEST_REFRESH_EXTRA, latestRefreshUnixTime);
         intent.setAction(INITIALIZE_ACTION);
         context.startService(intent);
-        //lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
+
         Log.i("ZWaveWidgetProvider", "onUpdate: background service started");
     }
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
         final String action = intent.getAction();
-        int[] appWidgetIds;
-        //Log.i("ZWaveWidgetProvider", "onReceive " + action);
 
         if (CLICK_ACTION.equals(action)) {
 
@@ -115,8 +105,9 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
             ctx.startService(i);
         }
         else if (STORE_REFRESH_TIME_ACTION.equals(action)) {
-            lastRefreshUnixTime = intent.getLongExtra(STORE_REFRESH_TIME_EXTRA, 0);
-            Log.i("ZWaveWidgetProvider", "Updating latestRefreshUnixTime to " + Long.toString(lastRefreshUnixTime));
+
+            latestRefreshUnixTime = intent.getLongExtra(STORE_REFRESH_TIME_EXTRA, 0);
+            //Log.i("ZWaveWidgetProvider", "Updating latestRefreshUnixTime to " + Long.toString(latestRefreshUnixTime));
         }
         super.onReceive(ctx, intent);
     }

@@ -15,7 +15,7 @@
         <item>Fibaro1</item>
         <item>Fibaro2</item>
         <item>Fibaro3</item>
-        <item>Poppplug</item>
+        <item>PoppPlug</item>
         <item>Cuisine</item>
     </string-array>
 
@@ -146,8 +146,8 @@
         <item name="devId_notified">10</item>
         <item name="instanceId_notified">0</item>
         <item name="commandclass_notified">37</item>
-        <item name="imageViewId">view13</item>
-        <item name="textViewId">view13Text</item>
+        <item name="imageViewId">view23</item>
+        <item name="textViewId">view23Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
@@ -158,8 +158,8 @@
         <item name="devId_notified">5</item>
         <item name="instanceId_notified">0</item>
         <item name="commandclass_notified">37</item>
-        <item name="imageViewId">view23</item>
-        <item name="textViewId">view23Text</item>
+        <item name="imageViewId">view30</item>
+        <item name="textViewId">view30Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
@@ -170,8 +170,8 @@
         <item name="devId_notified">11</item>
         <item name="instanceId_notified">0</item>
         <item name="commandclass_notified">37</item>
-        <item name="imageViewId">view30</item>
-        <item name="textViewId">view30Text</item>
+        <item name="imageViewId">view31</item>
+        <item name="textViewId">view31Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
@@ -182,20 +182,20 @@
         <item name="devId_notified">17</item>
         <item name="instanceId_notified">0</item>
         <item name="commandclass_notified">37</item>
-        <item name="imageViewId">view31</item>
-        <item name="textViewId">view31Text</item>
+        <item name="imageViewId">view32</item>
+        <item name="textViewId">view32Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
-    <string-array name="Poppplug">
+    <string-array name="PoppPlug">
         <item name="devId_setget">9</item>
         <item name="instanceId_setget">0</item>
         <item name="commandclass_setget">37</item>
         <item name="devId_notified">0</item>
         <item name="instanceId_notified">0</item>
         <item name="commandclass_notified">37</item>
-        <item name="imageViewId">view32</item>
-        <item name="textViewId">view32Text</item>
+        <item name="imageViewId">view33</item>
+        <item name="textViewId">view33Text</item>
         <item name="icontype">plug</item>
     </string-array>
 
@@ -206,8 +206,8 @@
         <item name="devId_notified">8</item>
         <item name="instanceId_notified">0</item>
         <item name="commandclass_notified">38</item>
-        <item name="imageViewId">view33</item>
-        <item name="textViewId">view33Text</item>
+        <item name="imageViewId">view13</item>
+        <item name="textViewId">view13Text</item>
         <item name="icontype">bulb</item>
     </string-array>
 
