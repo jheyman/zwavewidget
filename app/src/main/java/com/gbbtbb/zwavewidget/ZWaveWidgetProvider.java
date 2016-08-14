@@ -18,7 +18,8 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
 
     public Handler handler = new Handler();
     private Context ctx;
-    private static int REFRESH_DELAY = 5000;
+    private static int REFRESH_DELAY = 15000;
+    static long lastRefreshUnixTime = 0;
 
     Runnable refreshWidget = new Runnable()
     {
@@ -27,8 +28,11 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
             Intent i = new Intent(ctx.getApplicationContext(), ZWaveWidgetService.class);
             //intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
             // Update the widgets via the service
+            i.putExtra("lastRefresh", lastRefreshUnixTime);
+            i.setAction("refresh");
             ctx.startService(i);
 
+            lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
             handler.postDelayed(this, REFRESH_DELAY);
         }
     };
@@ -63,8 +67,10 @@ public class ZWaveWidgetProvider extends AppWidgetProvider {
         Intent intent = new Intent(context.getApplicationContext(), ZWaveWidgetService.class);
         //intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
         // Update the widgets via the service
+        intent.putExtra("lastRefresh", lastRefreshUnixTime);
+        intent.setAction("initialUpdate");
         context.startService(intent);
-
+        lastRefreshUnixTime = System.currentTimeMillis() / 1000L;
         Log.i("ZWaveWidgetProvider", "onUpdate: background service started");
     }
 

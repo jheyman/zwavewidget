@@ -23,45 +23,107 @@ public class ZWaveWidgetService extends IntentService {
         super(ZWaveWidgetService.class.getName());
     }
 
-
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        //final String action = intent.getAction();
-        //Log.i("ZWaveWidgetService", "onHandleIntent action= " + action);
-
+        final String action = intent.getAction();
+        // Create a RemoteViews to include any UI changes
         RemoteViews rv = new RemoteViews(this.getPackageName(), R.layout.zwavewidget);
 
-        String[] deviceList = getResources().getStringArray(R.array.deviceList);
+        if ("initialUpdate".equals(action)) {
+            Log.i("ZWaveWidgetService", "onHandleIntent, initialUpdate");
+            // Parse the list of all declared devices, and figure out if a UI update is required
+            String[] deviceList = getResources().getStringArray(R.array.deviceList);
+            for (String d : deviceList) {
+                int arrayId = this.getResources().getIdentifier(d, "array", this.getPackageName());
+                String[] temp = getResources().getStringArray(arrayId);
+                forceRefreshDevice(rv, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], d);
+            }
+        } else if ("refresh".equals(action)) {
+            long lastRefreshTime = intent.getExtras().getLong("lastRefresh");
+            Log.i("ZWaveWidgetService", "onHandleIntent, lastRefresh= " + Long.toString(lastRefreshTime));
 
-        for (String d : deviceList) {
-            int arrayId = this.getResources().getIdentifier(d, "array", this.getPackageName());
-            String[] temp = getResources().getStringArray(arrayId);
-            updateSwitch(rv, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], d);
+            // Get all state changes since last update from the z-way server
+            JSONObject jdata = getIncrementalUpdate(lastRefreshTime);
+
+            // Parse the list of all declared devices, and figure out if a UI update is required
+            String[] deviceList = getResources().getStringArray(R.array.deviceList);
+            for (String d : deviceList) {
+                int arrayId = this.getResources().getIdentifier(d, "array", this.getPackageName());
+                String[] temp = getResources().getStringArray(arrayId);
+                refreshDevice(jdata, rv, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5], d);
+            }
         }
-
+        // Finally, refresh the widget with these new UI states.
         ComponentName me = new ComponentName(this, ZWaveWidgetProvider.class);
         AppWidgetManager mgr = AppWidgetManager.getInstance(this);
         mgr.updateAppWidget(me, rv);
     }
 
-    private void updateSwitch(RemoteViews rv, String devId, String devInstanceId, String devCommandClass, String imgViewId, String txtViewId, String icontype_base, String name) {
+    private JSONObject getIncrementalUpdate(long timestamp){
+        String query_Data = String.format(" http://192.168.0.13:8083/ZWaveAPI/Data/%d", timestamp);
+        String result = httpRequest(query_Data);
+        //Log.i("ZWaveWidgetService", "getIncrementalUpdate: " + result);
 
-/*
-        Log.i("ZWaveWidgetService", "updateSwitch devid: " + devId);
-        Log.i("ZWaveWidgetService", "updateSwitch devInstanceId: " + devInstanceId);
-        Log.i("ZWaveWidgetService", "updateSwitch devCommandClass: " + devCommandClass);
-        Log.i("ZWaveWidgetService", "updateSwitch imgViewId: " + imgViewId);
-        Log.i("ZWaveWidgetService", "updateSwitch txtViewId: " + txtViewId);
-        Log.i("ZWaveWidgetService", "updateSwitch name: " + name);
-*/
-        //String query_Get = String.format("http://192.168.0.13:8083/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].Get()", devId, devInstanceId, devCommandClass);
-        //String query_Data = String.format("http://192.168.0.13:8083/ZAutomation/api/v1/devices/ZWayVDev_%s:%s:%s", devId, devInstanceId, devCommandClass);
+        JSONObject jdata = null;
+        // Parse the received JSON data
+        try {
+            jdata = new JSONObject(result);
 
-        String query_Data = String.format(" http://192.168.0.13:8083/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].data.level", devId, devInstanceId, devCommandClass);
+        } catch(JSONException e){
+            Log.e("ZWaveWidgetService", "Error parsing data " + e.toString());
+        }
 
+        return jdata;
+    }
 
-        //httpRequest(query_Get);
+    private void refreshDevice(JSONObject jdata, RemoteViews rv, String devId, String devInstanceId, String devCommandClass, String imgViewId, String txtViewId, String icontype_base, String name) {
+
+        // Build the string to look for in the JSON data
+        String key = String.format("devices.%s.instances.%s.commandClasses.%s.data.level", devId, devInstanceId, devCommandClass);
+        String level_string="";
+        int level=0;
+
+        // Parse the JSON data and check if this particular device changed state
+        try {
+            JSONObject j1 = jdata.getJSONObject(key);
+
+            if (j1 != null) {
+                level_string = j1.getString("value");
+
+                if ("true".equals(level_string))
+                    level = 1;
+                else if ("false".equals(level_string))
+                    level = 0;
+                else
+                    level = Integer.valueOf(j1.getString("value"));
+
+                Log.i("ZWaveWidgetService", "found change for "+ key +" : level=" + Integer.toString(level));
+
+                int imageViewId = this.getResources().getIdentifier(imgViewId, "id", this.getPackageName());
+
+                String iconOnIdString = String.format("%s_on", icontype_base);
+                String iconOffIdString = String.format("%s_off", icontype_base);
+                int iconOnId = this.getResources().getIdentifier(iconOnIdString, "drawable", this.getPackageName());
+                int iconOffId = this.getResources().getIdentifier(iconOffIdString, "drawable", this.getPackageName());
+
+                rv.setImageViewResource(imageViewId, level == 0 ? iconOffId : iconOnId);
+
+                int textViewId = this.getResources().getIdentifier(txtViewId, "id", this.getPackageName());
+                rv.setTextViewText(textViewId, name);
+            }
+        } catch(JSONException e){
+            //Log.i("ZWaveWidgetService", "No change detected for " + key );
+        }
+    }
+
+    private void forceRefreshDevice(RemoteViews rv, String devId, String devInstanceId, String devCommandClass, String imgViewId, String txtViewId, String icontype_base, String name) {
+
+        // Perform an explicit GET command on the device, to be sure that device status is fresh
+        String query_Get = String.format("http://192.168.0.13:8083/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].Get()", devId, devInstanceId, devCommandClass);
+        String query_Data = String.format("http://192.168.0.13:8083/ZWaveAPI/Run/devices[%s].instances[%s].commandClasses[%s].data.level", devId, devInstanceId, devCommandClass);
+
+        httpRequest(query_Get);
         String result = httpRequest(query_Data);
 
         String level_string="";
@@ -101,7 +163,7 @@ public class ZWaveWidgetService extends IntentService {
     private String httpRequest(String url) {
         String result = "";
 
-        //Log.i("ZWaveWidgetService", "Performing HTTP request " + url);
+        Log.i("ZWaveWidgetService", "Performing HTTP request " + url);
 
         try {
 
@@ -117,7 +179,6 @@ public class ZWaveWidgetService extends IntentService {
             Log.e("ZWaveWidgetService", "httpRequest: Error in http connection " + e.toString());
         }
 
-        /*
         String data;
         if (result.length() <= 128)
             data = result;
@@ -125,7 +186,7 @@ public class ZWaveWidgetService extends IntentService {
             data = "[long data....]";
 
         Log.i("ZWaveWidgetService", "httpRequest completed, received " + result.length() + " bytes: " + data);
-        */
+
         return result;
     }
 

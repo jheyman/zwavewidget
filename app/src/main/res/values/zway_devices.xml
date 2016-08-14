@@ -20,9 +20,9 @@
     </string-array>
 
     <string-array name="Garage">
-        <item name="devidId">1</item>
-        <item name="intanceId">1</item>
-        <item name="command">32</item>
+        <item name="devidId">26</item>
+        <item name="intanceId">0</item>
+        <item name="command">38</item>
         <item name="imageViewId">view00</item>
         <item name="textViewId">view00Text</item>
         <item name="icontype">bulb</item>
