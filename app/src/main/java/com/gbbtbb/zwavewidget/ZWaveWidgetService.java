@@ -100,6 +100,8 @@ public class ZWaveWidgetService extends IntentService {
         ComponentName me = new ComponentName(this, ZWaveWidgetProvider.class);
         AppWidgetManager mgr = AppWidgetManager.getInstance(this);
         mgr.updateAppWidget(me, rv);
+        Log.i("ZWaveWidgetService", "updateAppWidget called");
+
     }
 
     private JSONObject getIncrementalUpdate(long timestamp){
@@ -188,8 +190,10 @@ public class ZWaveWidgetService extends IntentService {
                     Log.i("ZWaveWidgetService", "STALE update for " + key_main + ", discarding ");
                 }
             } catch(JSONException e){
-                Log.i("ZWaveWidgetService", "No change detected for " + key_main + "or "+ key_alt);
+                Log.e("ZWaveWidgetService", "refreshDevice: Error parsing data " + e.toString());
             }
+        } else {
+            Log.i("ZWaveWidgetService", "No change detected for " + key_main + "or "+ key_alt);
         }
     }
 
