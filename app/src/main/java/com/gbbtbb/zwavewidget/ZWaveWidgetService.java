@@ -100,7 +100,7 @@ public class ZWaveWidgetService extends IntentService {
         ComponentName me = new ComponentName(this, ZWaveWidgetProvider.class);
         AppWidgetManager mgr = AppWidgetManager.getInstance(this);
         mgr.updateAppWidget(me, rv);
-        Log.i("ZWaveWidgetService", "updateAppWidget called");
+        Log.i("ZWaveWidgetService", "refreshing widget UI");
 
     }
 
@@ -116,21 +116,21 @@ public class ZWaveWidgetService extends IntentService {
             jdata = new JSONObject(result);
             updateTime = jdata.getString("updateTime");
 
+            // Notify provider of data refresh time
+            final Intent storeTimeIntent = new Intent(this, ZWaveWidgetProvider.class);
+            storeTimeIntent.setAction(ZWaveWidgetProvider.STORE_REFRESH_TIME_ACTION);
+            storeTimeIntent.putExtra(ZWaveWidgetProvider.STORE_REFRESH_TIME_EXTRA, Long.valueOf(updateTime));
+            final PendingIntent donePendingIntent = PendingIntent.getBroadcast(this, 0, storeTimeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            try {
+                donePendingIntent.send();
+            }
+            catch (PendingIntent.CanceledException ce) {
+                Log.i("ZWaveWidgetService", "getIncrementalUpdate: Exception: " + ce.toString());
+            }
+
         } catch(JSONException e){
             Log.e("ZWaveWidgetService", "getIncrementalUpdate: Error parsing data " + e.toString());
-        }
-
-        // Notify provider of data refresh time
-        final Intent storeTimeIntent = new Intent(this, ZWaveWidgetProvider.class);
-        storeTimeIntent.setAction(ZWaveWidgetProvider.STORE_REFRESH_TIME_ACTION);
-        storeTimeIntent.putExtra(ZWaveWidgetProvider.STORE_REFRESH_TIME_EXTRA, Long.valueOf(updateTime));
-        final PendingIntent donePendingIntent = PendingIntent.getBroadcast(this, 0, storeTimeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        try {
-            donePendingIntent.send();
-        }
-        catch (PendingIntent.CanceledException ce) {
-            Log.i("ZWaveWidgetService", "getIncrementalUpdate: Exception: " + ce.toString());
         }
 
         return jdata;
@@ -193,7 +193,7 @@ public class ZWaveWidgetService extends IntentService {
                 Log.e("ZWaveWidgetService", "refreshDevice: Error parsing data " + e.toString());
             }
         } else {
-            Log.i("ZWaveWidgetService", "No change detected for " + key_main + "or "+ key_alt);
+            //Log.i("ZWaveWidgetService", "No change detected for " + key_main + "or "+ key_alt);
         }
     }
 
